@@ -15,24 +15,23 @@ RCT_EXPORT_METHOD(show
                   : (RCTPromiseResolveBlock)resolve rejecter
                   : (RCTPromiseRejectBlock)reject)
 {
-  // https://docs-prod-us-east-2.production.braintree-api.com/guides/drop-in/customization/ios/v5
-  // if ([options[@"darkTheme"] boolValue]) {
-  //   if (@available(iOS 13.0, *)) {
-  //     BTUIKAppearance.sharedInstance.colorScheme = BTUIKColorSchemeDynamic;
-  //   } else {
-  //     BTUIKAppearance.sharedInstance.colorScheme = BTUIKColorSchemeDark;
-  //   }
-  // } else {
-  //   BTUIKAppearance.sharedInstance.colorScheme = BTUIKColorSchemeLight;
-  // }
+  BTDropInUICustomization *uiCustomization;
+  if ([options[@"darkTheme"] boolValue]) {
+    if (@available(iOS 13.0, *)) {
+      uiCustomization = [[BTDropInUICustomization alloc] initWithColorScheme:BTDropInColorSchemeDynamic];
+    } else {
+      uiCustomization = [[BTDropInUICustomization alloc] initWithColorScheme:BTDropInColorSchemeDark];
+    }
+  } else {
+    uiCustomization = [[BTDropInUICustomization alloc] initWithColorScheme:BTDropInColorSchemeLight];
+  }
 
-  // https://docs-prod-us-east-2.production.braintree-api.com/guides/drop-in/customization/ios/v5
-  // if (options[@"fontFamily"]) {
-  //   [BTUIKAppearance sharedInstance].fontFamily = options[@"fontFamily"];
-  // }
-  // if (options[@"boldFontFamily"]) {
-  //   [BTUIKAppearance sharedInstance].boldFontFamily = options[@"boldFontFamily"];
-  // }
+  if (options[@"fontFamily"]) {
+    uiCustomization.fontFamily = options[@"fontFamily"];
+  }
+  if (options[@"boldFontFamily"]) {
+    uiCustomization.boldFontFamily = options[@"boldFontFamily"];
+  }
 
   self.resolve = resolve;
   self.reject = reject;
@@ -45,6 +44,8 @@ RCT_EXPORT_METHOD(show
   }
 
   BTDropInRequest *request = [[BTDropInRequest alloc] init];
+
+  request.uiCustomization = uiCustomization;
 
   NSDictionary *threeDSecureOptions = options[@"threeDSecure"];
   if (threeDSecureOptions) {

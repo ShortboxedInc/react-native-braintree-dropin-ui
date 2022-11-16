@@ -1,6 +1,6 @@
 # react-native-braintree-dropin-ui
 
-> React Native integration of Braintree Drop-in for IOS & ANDROID (Apple Pay, Google Pay, Paypal, Venmo, Credit Card)
+React Native integration of Braintree Drop-in for iOS & Android (Apple Pay, Google Pay, Paypal, Venmo, credit card)
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/wgltony/react-native-braintree-dropin-ui/master/node_modules/iphone.png" width="250">
@@ -11,30 +11,32 @@
 
 For React Native versions >= 0.60
 
-IOS
+### NPM
 ```bash
 npm install react-native-braintree-dropin-ui --save
+```
 
+### Yarn
+```bash
+yarn add react-native-braintree-dropin-ui
+```
+
+### iOS
+```
 cd ./ios
 pod install
 ```
 
-Android
-```bash
-npm install react-native-braintree-dropin-ui --save
-```
+## Configure Payment Method
+See Braintree’s documentation for [Apple Pay][8], [Google Pay][9], [Paypal][10], [Venmo][11]. Once you’ve finished setting up all each payment method, it will appear in the drop-in UI.
 
-## Configurate Payment Method(For ALL RN VERSIONS)
-See Braintree's documentation, [Apple Pay][8], [Google Pay][9], [Paypal][10], [Venmo][11]
-Once you have finished setting up all the configurations, it will shows in the dropin UI.
+### Apple Pay
 
-#### Apple Pay
+The Drop-in UI will show Apple Pay as a payment option as long as you've completed the [Apple Pay integration][6] and the customer’s [device and card type are supported][7].
 
-The Drop-in will show Apple Pay as a payment option as long as you've completed the [Apple Pay integration][6] and the customer's [device and card type are supported][7].
+### PayPal
 
-#### PayPal
-
-To enable paypal payments in iOS, you will need to add `setReturnURLScheme` to `launchOptions` of your `AppDelegate.m`
+To enable PayPal payments in iOS, you will need to add `setReturnURLScheme` to the `launchOptions` of your `AppDelegate.m`
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -43,19 +45,19 @@ To enable paypal payments in iOS, you will need to add `setReturnURLScheme` to `
 }
 ```
 
-### Configuration
+## Configuration
 
-For more configuration options, see Braintree's documentation ([iOS][2] | [Android][3]).
+For more configuration options, see Braintree’s documentation ([iOS][2] | [Android][3]).
 
-#### 3D Secure
+### 3D Secure
 
-If you plan on using 3D Secure, you have to do the following.
+If you plan on using 3D Secure, you have to do the following:
 
-##### iOS
+#### iOS
 
-###### Configure a new URL scheme
+##### Configure a new URL scheme
 
-Add a bundle url scheme `{BUNDLE_IDENTIFIER}.payments` in your app Info via XCode or manually in the `Info.plist`.
+Add a bundle url scheme `{BUNDLE_IDENTIFIER}.payments` in your app Info via Xcode or manually in the `Info.plist`.
 In your `Info.plist`, you should have something like:
 
 ```xml
@@ -74,7 +76,7 @@ In your `Info.plist`, you should have something like:
 </array>
 ```
 
-###### Update your code
+##### Update your code
 
 In your `AppDelegate.m`:
 
@@ -130,12 +132,11 @@ private var paymentsURLScheme: String {
 }
 ```
 
-##### Android
+#### Android
 
-Setup [browser switch][4].
+Set up [browser switch][4].
 
-
-## Usage
+## Use
 
 For the API, see the [Flow typings][5].
 
@@ -148,8 +149,8 @@ BraintreeDropIn.show({
   clientToken: 'token',
   merchantIdentifier: 'applePayMerchantIdentifier',
   googlePayMerchantId: 'googlePayMerchantId',
-  countryCode: 'US',    //apple pay setting
-  currencyCode: 'USD',   //apple pay setting
+  countryCode: 'US',    // Apple Pay setting
+  currencyCode: 'USD',   // Apple Pay setting
   merchantName: 'Your Merchant Name for Apple Pay',
   orderTotal:'Total Price',
   googlePay: true,
@@ -162,9 +163,9 @@ BraintreeDropIn.show({
 .then(result => console.log(result))
 .catch((error) => {
   if (error.code === 'USER_CANCELLATION') {
-    // update your UI to handle cancellation
+    // Update your UI to handle cancellation
   } else {
-    // update your UI to handle other errors
+    // Update your UI to handle other errors
   }
 });
 ```
@@ -181,8 +182,8 @@ BraintreeDropIn.show({
   },
   merchantIdentifier: 'applePayMerchantIdentifier',
   googlePayMerchantId: 'googlePayMerchantId',
-  countryCode: 'US',    //apple pay setting
-  currencyCode: 'USD',   //apple pay setting
+  countryCode: 'US',    // Apple Pay setting
+  currencyCode: 'USD',   // Apple Pay setting
   merchantName: 'Your Merchant Name for Apple Pay',
   orderTotal:'Total Price',
   googlePay: true,
@@ -195,10 +196,10 @@ BraintreeDropIn.show({
 .then(result => console.log(result))
 .catch((error) => {
   if (error.code === 'USER_CANCELLATION') {
-    // update your UI to handle cancellation
+    // Update your UI to handle cancellation
   } else {
-    // update your UI to handle other errors
-    // for 3D secure, there are two other specific error codes: 3DSECURE_NOT_ABLE_TO_SHIFT_LIABILITY and 3DSECURE_LIABILITY_NOT_SHIFTED
+    // Update your UI to handle other errors
+    // For 3D Secure, there are two other specific error codes: 3DSECURE_NOT_ABLE_TO_SHIFT_LIABILITY and 3DSECURE_LIABILITY_NOT_SHIFTED
   }
 });
 ```
