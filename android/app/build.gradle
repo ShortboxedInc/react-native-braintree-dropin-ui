@@ -251,13 +251,22 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation 'com.braintreepayments.api:drop-in:6.4.0'
-    implementation 'com.braintreepayments.api:google-payment:3.5.0'
-    implementation 'com.braintreepayments.api:drop-in:6.4.1-SNAPSHOT'
-    // implementation 'com.braintreepayments.api:drop-in:6.4.1-SNAPSHOT'
+    implementation 'com.braintreepayments.api:drop-in:6.5.0'
 
-    // Google dependencies
-    implementation 'com.google.android.gms:play-services-wallet:16.0.1'
+    // to offer card payments
+  implementation 'com.braintreepayments.api:card:4.20.0'
+
+  // to collect device data
+  implementation 'com.braintreepayments.api:data-collector:4.21.0'
+
+  // to offer PayPal 
+  implementation 'com.braintreepayments.api:paypal:4.21.0'
+
+  // to offer local payments
+  implementation 'com.braintreepayments.api:local-payment:4.21.0'
+
+  // to offer Google Pay
+  implementation 'com.braintreepayments.api:google-pay:4.21.0'
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -295,8 +304,7 @@ if (isNewArchitectureEnabled()) {
         resolutionStrategy.dependencySubstitution {
             substitute(module("com.facebook.react:react-native"))
                     .using(project(":ReactAndroid"))
-                    .because("On New Architecture we're building React Native from source")
-            substitute(module("com.facebook.react:hermes-engine"))
+p            substitute(module("com.facebook.react:hermes-engine"))
                     .using(project(":ReactAndroid:hermes-engine"))
                     .because("On New Architecture we're building Hermes from source")
         }

@@ -31,6 +31,8 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+  [BTAppSwitch setReturnURLScheme:self.paymentsURLScheme];
   RCTAppSetupPrepareApp(application);
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
@@ -58,6 +60,22 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+
+    if ([url.scheme localizedCaseInsensitiveCompare:self.paymentsURLScheme] == NSOrderedSame) {
+        return [BTAppSwitch handleOpenURL:url options:options];
+    }
+
+    return [RCTLinkingManager application:application openURL:url options:options];
+}
+
+- (NSString *)paymentsURLScheme {
+    NSString *bundleIdentifier = [[NSBundle mainBundle] bundleIdentifier];
+    return [NSString stringWithFormat:@"%@.%@", bundleIdentifier, @"payments"];
 }
 
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
